@@ -15,18 +15,6 @@ const std::regex _regexMask = std::regex("^([8-9]|1[0-9]|2[0-9]|30)$");
 const std::regex _regexSubnetSize = std::regex("^[0-9]{1,4}$");
 
 
-void stringToIntArray(uint8_t(&arr)[4], const std::string& str) {
-	std::stringstream ss(str);
-
-	int i = 0;
-	std::string temp;
-
-	while(std::getline(ss, temp, '.'))
-		arr[i++] = std::atoi(temp.c_str());
-}
-
-
-
 std::string getIP() {
 	std::string ip = "";
 	
@@ -67,36 +55,39 @@ private:
 
 private:
 	uint8_t _cidr = 0;
-	Bits _network, _subnetmask, _wildcard;
+	Bits _address, _subnetmask, _wildcard;
 	Bits _networkID, _broadcast;
 	Bits _firstHost, _lastHost;
-	uint32_t _availibleHosts;
+	uint32_t _availableHosts;
 
 
 public:
-	IPNetwork(const std::string& ip, const uint8_t& cidr)
+	IPNetwork(const std::string& address, const uint8_t& cidr)
 		: _cidr(cidr) {
 
-		std::string subnetmask = _cidrToString(cidr);
+		_address = _stringToBits(address);
+		_subnetmask = ~(0xFFFFFFFF >> cidr);
 
-		_network = _stringToBits(ip);
-		_subnetmask = _stringToBits(subnetmask);
+		_wildcard = (~_subnetmask);
+		_networkID = (_address & _subnetmask);
+		_broadcast = (_networkID | _wildcard);
 
-		_wildcard |= ~_subnetmask;
-		_networkID |= _network & _subnetmask;
-		_broadcast |= _network | _wildcard;
+		_firstHost = (_networkID.to_ulong() + 1);
+		_lastHost = (_broadcast.to_ulong() - 1);
 
-		_firstHost = _networkID.to_ulong() + 1;
-		_lastHost = _broadcast.to_ulong() - 1;
+		_availableHosts = (std::pow(2, (32 - _cidr)) - 2);
 
-		std::cout << "IP: \t\t" << _bitsToString(_network) << std::endl;
-		std::cout << "Subnetmask: \t" << _bitsToString(_subnetmask) << std::endl;
-		std::cout << "Wildcard: \t" << _bitsToString(_wildcard) << std::endl;
+		std::cout << _address << std::endl;
+		std::cout << _subnetmask << std::endl;
+
+		std::cout << "Entered IP: \t\t" << _bitsToString(_address) << " " << std::to_string( _cidr )<< std::endl;
 		std::cout << std::endl;
-
-		std::cout << "Network ID: \t" << _bitsToString(_networkID) << std::endl;
-		std::cout << "Range: \t\t" << _bitsToString(_firstHost) << " - " << _bitsToString(_lastHost) << std::endl;
-		std::cout << "Broadcast: \t" << _bitsToString(_broadcast) << std::endl;
+		std::cout << "Network ID: \t\t" << _bitsToString(_networkID) << std::endl;
+		std::cout << "Subnetmask/Wildcard: \t" << _bitsToString(_subnetmask) << " / " << _bitsToString(_wildcard) << std::endl;
+		std::cout << std::endl;
+		std::cout << "Range: \t\t\t" << _bitsToString(_firstHost) << " - " << _bitsToString(_lastHost) << std::endl;
+		std::cout << "Broadcast: \t\t" << _bitsToString(_broadcast) << std::endl;
+		std::cout << "Available hosts: \t" << _availableHosts << std::endl;
 	}
 
 
@@ -129,73 +120,15 @@ private:
 		return result;
 	}
 
-	std::string _cidrToString(const uint8_t& cidr) {
-		uint8_t finalCIDR = 32 - cidr;
-
-		std::string subnetmask = "";
-
-		int result = 0;
-		if(finalCIDR >= 0 && finalCIDR <= 8) {
-			for(int i = 0; i < finalCIDR; i++)
-				result += pow(2, i);
-
-			subnetmask = "255.255.255." + std::to_string(255 - result);
-		}
-
-		else if(finalCIDR >= 8 && finalCIDR <= 16) {
-			finalCIDR = 16 - finalCIDR;
-			finalCIDR = 8 - finalCIDR;
-
-			for(int i = 0; i < finalCIDR; i++)
-				result += pow(2, i);
-
-			subnetmask = "255.255." + std::to_string(255 - result) + ".0";
-		}
-
-		else if(finalCIDR >= 16 && finalCIDR <= 24) {
-			finalCIDR = 24 - finalCIDR;
-			finalCIDR = 8 - finalCIDR;
-
-			for(int i = 0; i < finalCIDR; i++)
-				result += pow(2, i);
-
-			subnetmask = "255." + std::to_string(255 - result) + ".0.0";
-		}
-
-		else {
-			subnetmask = 32 - finalCIDR;
-			subnetmask = 8 - finalCIDR;
-
-			for(int i = 0; i < finalCIDR; i++)
-				result += pow(2, i);
-
-			subnetmask = std::to_string(255 - result) + ".0.0.0";
-		}
-
-		return subnetmask;
-	}
-
 };
 
 
 int main() {
 	std::string ip = "192.168.2.234"; // getIP();
-	uint8_t cidr = 24; // getCIDR();
+	uint8_t cidr = 2; // getCIDR();
 	
 	IPNetwork network(ip, cidr);
 
-
-	/*
-	while(true) {
-		std::string subnetsSize = getNextSubnetSize();
-		ipv4.addSubnet("test", std::atoi(subnetsSize.c_str()));
-	}
-
-	ipv4.calculateSubnets();
-	ipv4.printSubnets();
-
-	// calculate subnets
-	*/
 
 	std::cin.ignore();
 	return 0;
