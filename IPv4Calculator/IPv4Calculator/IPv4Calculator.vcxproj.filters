@@ -18,21 +18,21 @@
     <ClCompile Include="source\Main.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\IPv4.cpp">
+    <ClCompile Include="source\IPNetwork.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="source\Calculator.cpp">
+    <ClCompile Include="source\IPCalculator.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\IPv4.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="source\Constants.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="source\Calculator.h">
+    <ClInclude Include="source\IPNetwork.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\IPCalculator.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

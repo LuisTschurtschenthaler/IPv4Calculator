@@ -158,9 +158,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\IPCalculator.cpp" />
+    <ClCompile Include="source\IPNetwork.cpp" />
     <ClCompile Include="source\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\IPCalculator.h" />
+    <ClInclude Include="source\IPNetwork.h" />
     <ClInclude Include="source\Constants.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
