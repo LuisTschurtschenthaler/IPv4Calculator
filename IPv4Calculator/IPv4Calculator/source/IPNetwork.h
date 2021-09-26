@@ -29,6 +29,7 @@ public:
 	std::string getNetworkID();
 	std::string getNextSubnetIP();
 
+	std::string getClassInformation();
 	void printDetails();
 
 private:

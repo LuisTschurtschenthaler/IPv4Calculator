@@ -18,18 +18,6 @@ IPNetwork::IPNetwork(const std::string& address, const uint8_t& cidr)
 	_lastHost = (_broadcast.to_ulong() - 1);
 
 	_availableHosts = (std::pow(2, (32 - _cidr)) - 2);
-	/*
-	std::cout << _address << std::endl;
-	std::cout << _subnetmask << std::endl;
-
-	std::cout << "Entered IP: \t\t" << _bitsToString(_address) << " " << std::to_string(_cidr) << std::endl;
-	std::cout << std::endl;
-	std::cout << "Network ID: \t\t" << _bitsToString(_networkID) << std::endl;
-	std::cout << "Subnetmask/Wildcard: \t" << _bitsToString(_subnetmask) << " / " << _bitsToString(_wildcard) << std::endl;
-	std::cout << std::endl;
-	std::cout << "Range: \t\t\t" << _bitsToString(_firstHost) << " - " << _bitsToString(_lastHost) << std::endl;
-	std::cout << "Broadcast: \t\t" << _bitsToString(_broadcast) << std::endl;
-	std::cout << "Available hosts: \t" << _availableHosts << std::endl;*/
 }
 
 IPNetwork::IPNetwork(const std::string& name, const std::string& address, const uint8_t& cidr)
@@ -57,8 +45,54 @@ std::string IPNetwork::getNextSubnetIP() {
 	return _bitsToString(_broadcast.to_ulong() + 1);
 }
 
+std::string IPNetwork::getClassInformation() {
+	auto ipToIntVector = [](const std::string& address) {
+		std::stringstream ss(address);
+		std::vector<int> ip;
+
+		std::string temp;
+		while(std::getline(ss, temp, '.'))
+			ip.push_back(std::atoi(temp.c_str()));
+
+		return ip;
+	};
+
+	std::vector<int> ip = ipToIntVector(getNetworkID());
+
+	if(ip[0] == 10)
+		return "'A', private block";
+
+	else if(ip[0] == 172 && ip[1] >= 16 && ip[1] <= 31)
+		return "'B', private block";
+
+	else if(ip[0] == 192 && ip[1] == 168)
+		return "'C', private block";
+
+	else if(ip[0] == 127)
+		return "Reserved block, System Loopback Address";
+
+	else if(ip[0] >= 0 && ip[0] < 127)
+		return "A";
+
+	else if(ip[0] > 127 && ip[0] < 192)
+		return "B";
+
+	else if(ip[0] > 191 && ip[0] < 224)
+		return "C";
+
+	else if(ip[0] > 223 && ip[0] < 240)
+		return "D, Multicast IP-Address block";
+
+	else if(ip[0] > 239 && ip[0] <= 255)
+		return "E, Multicast IP-Address block";
+
+	else return "Not in range";
+}
+
 void IPNetwork::printDetails() {
-	std::cout << "Network name: \t\t" << _name << std::endl;
+	if(_name != "")
+		std::cout << "Network name: \t\t" << _name << std::endl;
+	
 	std::cout << "Network ID: \t\t" << _bitsToString(_networkID) << std::endl;
 	std::cout << "Subnetmask/Wildcard: \t" << _bitsToString(_subnetmask) << " / " << _bitsToString(_wildcard) << std::endl;
 	std::cout << "Range: \t\t\t" << _bitsToString(_firstHost) << " - " << _bitsToString(_lastHost) << std::endl;

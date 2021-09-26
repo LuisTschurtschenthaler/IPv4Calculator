@@ -25,6 +25,7 @@ void IPCalculator::calculate() {
 
 	std::vector<IPNetwork> networks;
 	_network->printDetails();
+	std::cout << "Class information: \t" << _network->getClassInformation() << std::endl;
 	std::cout << std::endl;
 
 	for(const auto& subnet : _subnets) {
