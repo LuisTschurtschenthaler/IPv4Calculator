@@ -24,6 +24,12 @@
     <ClCompile Include="source\IPCalculator.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="source\Input.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="source\pch.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Constants.h">
@@ -33,6 +39,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="source\IPCalculator.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Input.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="source\pch.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

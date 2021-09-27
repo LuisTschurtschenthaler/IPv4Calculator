@@ -1,13 +1,12 @@
+#include "pch.h"
 #include "IPCalculator.h"
-#include <iostream>
-#include <algorithm>
 
 
 IPNetwork* IPCalculator::_network;
 std::vector<Subnet> IPCalculator::_subnets;
 
 
-void IPCalculator::addSubnet(const std::string& name, const uint64_t& size) {
+void IPCalculator::addSubnet(const std::string& name, const uint64_t& amountOfHosts) {
 	for(const auto& subnet : _subnets) {
 		if(subnet.first == name) {
 			std::cout << "Subnet '" << name << "' already exists!" << std::endl;
@@ -15,7 +14,7 @@ void IPCalculator::addSubnet(const std::string& name, const uint64_t& size) {
 		}
 	}
 
-	_subnets.push_back(std::make_pair(name, size));
+	_subnets.push_back(std::make_pair(name, amountOfHosts));
 }
 
 void IPCalculator::calculate() {
@@ -29,8 +28,8 @@ void IPCalculator::calculate() {
 	std::cout << std::endl;
 
 	for(const auto& subnet : _subnets) {
-		uint8_t subnetCIDR = -(log(subnet.second + 2) / log(2)) + 32;
-
+		uint8_t subnetCIDR = -(log10(subnet.second + 2) / log10(2)) + 32;
+		
 		std::string address = (networks.size() == 0) 
 			? _network->getNetworkID()
 			: networks[networks.size() - 1].getNextSubnetIP();
@@ -46,4 +45,11 @@ void IPCalculator::calculate() {
 
 		networks.push_back(network);
 	}
+}
+
+void IPCalculator::shutdown() {
+	for(auto& subnet : _subnets)
+		delete &subnet;
+
+	delete _network;
 }

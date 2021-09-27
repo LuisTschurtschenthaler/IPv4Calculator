@@ -19,8 +19,9 @@ private:
 
 
 public:
-	static void addSubnet(const std::string& name, const uint64_t& size);
+	static void addSubnet(const std::string& name, const uint64_t& amountOfHosts);
 	static void calculate();
+	static void shutdown();
 
 	static void setIPNetwork(IPNetwork* network) { _network = network; }
 

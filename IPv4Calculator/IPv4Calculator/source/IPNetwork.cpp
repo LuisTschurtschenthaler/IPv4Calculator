@@ -1,7 +1,6 @@
+#include "pch.h"
 #include "IPNetwork.h"
 #include "Constants.h"
-#include <iostream>
-#include <sstream>
 
 
 IPNetwork::IPNetwork(const std::string& address, const uint8_t& cidr)
