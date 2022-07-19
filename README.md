@@ -4,8 +4,7 @@ This VLSM calculator program is very easy to use. It is a console program and co
 
 ## How to use
 1. Enter an IP-Address (e.g. 192.168.0.100)
-2. Enter CIDR (e.g. 24)
-  1. CIDR = short notation for subnetmask
+2. Enter CIDR (short notation for subnetmask) (e.g. 24)
 3. Enter a name for the first subnet (e.g. Subnet 1)
 4. Enter the amount of hosts for this subnet (e.g. 12)
 5. Repeat steps 3-4 until all subnets are entered
