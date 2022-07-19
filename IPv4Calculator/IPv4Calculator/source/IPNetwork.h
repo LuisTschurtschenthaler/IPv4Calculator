@@ -2,6 +2,7 @@
 #define IP_NETWORK_H
 
 #include <string>
+#include <vector>
 #include <bitset>
 #include <stdint.h>
 
@@ -19,10 +20,11 @@ private:
 	Bits _address, _subnetmask, _wildcard;
 	Bits _networkID, _broadcast;
 	Bits _firstHost, _lastHost;
-	uint64_t _availableHosts;
+	uint64_t _availableHosts = 0;
 
 
 public:
+	IPNetwork() = default;
 	IPNetwork(const std::string& address, const uint8_t& cidr);
 	IPNetwork(const std::string& name, const std::string& address, const uint8_t& cidr);
 

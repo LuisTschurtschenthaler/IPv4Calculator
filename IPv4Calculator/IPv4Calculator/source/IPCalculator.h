@@ -14,16 +14,15 @@ using Subnet = std::pair<std::string, uint64_t>;
 class IPCalculator {
 
 private:
-	static IPNetwork* _network;
+	static IPNetwork _network;
 	static std::vector<Subnet> _subnets;
 
 
 public:
 	static void addSubnet(const std::string& name, const uint64_t& amountOfHosts);
 	static void calculate();
-	static void shutdown();
 
-	static void setIPNetwork(IPNetwork* network) { _network = network; }
+	static void setIPNetwork(const IPNetwork& network) { _network = network; }
 
 };
 

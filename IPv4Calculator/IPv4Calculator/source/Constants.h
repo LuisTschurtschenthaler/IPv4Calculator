@@ -2,14 +2,13 @@
 #define CONSTANTS_H
 
 #include <bitset>
-#include <regex>
 #include <stdint.h>
 
 
-const std::regex REGEX_IP_V_4 = std::regex("^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
-const std::regex REGEX_CIDR = std::regex("^([8-9]|1[0-9]|2[0-9]|30)$");
-const std::regex REGEX_SUBNET_SIZE = std::regex("^[0-9]{1,4}$");
-const std::regex REGEX_YES_NO = std::regex("^[ynYN]$");
+const std::string REGEX_IP_V4 = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+const std::string REGEX_CIDR = "^([8-9]|1[0-9]|2[0-9]|30)$";
+const std::string REGEX_SUBNET_SIZE = "^[0-9]{1,4}$";
+const std::string REGEX_YES_NO = "^[ynYN]$";
 
 
 const uint8_t OCTET_SIZE = 8;

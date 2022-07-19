@@ -57,7 +57,6 @@ std::string IPNetwork::getClassInformation() {
 	};
 
 	std::vector<int> ip = ipToIntVector(getNetworkID());
-
 	if(ip[0] == 10)
 		return "'A', private block";
 

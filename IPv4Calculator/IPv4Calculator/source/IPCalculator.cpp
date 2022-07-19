@@ -1,8 +1,10 @@
 #include "pch.h"
+#include "Input.h"
+#include "IPNetwork.h"
 #include "IPCalculator.h"
 
 
-IPNetwork* IPCalculator::_network;
+IPNetwork IPCalculator::_network;
 std::vector<Subnet> IPCalculator::_subnets;
 
 
@@ -22,20 +24,23 @@ void IPCalculator::calculate() {
 		return (a.second > b.second);
 	});
 
+	Input::_clearConsole();
+
 	std::vector<IPNetwork> networks;
-	_network->printDetails();
-	std::cout << "Class information: \t" << _network->getClassInformation() << std::endl;
+	_network.printDetails();
+
+	std::cout << "Class information: \t" << _network.getClassInformation() << std::endl;
 	std::cout << std::endl;
 
 	for(const auto& subnet : _subnets) {
 		uint8_t subnetCIDR = -(log10(subnet.second + 2) / log10(2)) + 32;
 		
 		std::string address = (networks.size() == 0) 
-			? _network->getNetworkID()
+			? _network.getNetworkID()
 			: networks[networks.size() - 1].getNextSubnetIP();
 
 		IPNetwork network({ subnet.first, address, subnetCIDR });
-		if(network._address.to_ulong() >= _network->_broadcast.to_ulong()) {
+		if(network._address.to_ulong() >= _network._broadcast.to_ulong()) {
 			std::cout << "NOT ENOUGH SPACE!" << std::endl;
 			return;
 		}
@@ -45,11 +50,4 @@ void IPCalculator::calculate() {
 
 		networks.push_back(network);
 	}
-}
-
-void IPCalculator::shutdown() {
-	for(auto& subnet : _subnets)
-		delete &subnet;
-
-	delete _network;
 }

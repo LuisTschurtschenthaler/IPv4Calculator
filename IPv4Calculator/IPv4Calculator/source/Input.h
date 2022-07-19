@@ -3,9 +3,12 @@
 
 #include <string>
 #include <stdint.h>
+#include <regex>
 
 
 class Input {
+
+	friend class IPCalculator;
 
 public:
 	static std::string getIP();
@@ -15,6 +18,10 @@ public:
 	static uint64_t getSubnetSize();
 	
 	static bool shouldContinue();
+
+private:
+	static std::string _getInput(const std::string& message, const std::string& regexStr);
+	static void _clearConsole();
 
 };
 
